@@ -1,11 +1,15 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    # Padrão comum para URL de conexão com o banco de dados.
-    # Removido o valor padrão para forçar a configuração via .env ou variáveis de ambiente.
+    # Database configuration
     DATABASE_URL: str
+    
+    # JWT configuration  
+    JWT_ALGORITHM: str = "HS256"
+    SECRET_KEY: str
 
-    class Config:
-        env_file = ".env"
+    model_config = {
+        "env_file": ".env"
+    }
 
 settings = Settings()

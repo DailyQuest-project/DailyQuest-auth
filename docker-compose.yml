@@ -1,12 +1,19 @@
-version: '3.8'
+# Em: dailyquest-auth/docker-compose.yml
 
 services:
-  api:
-    build:
-      context: ./
-    container_name: login
+  # Serviço de Autenticação
+  auth:
+    build: .
+    container_name: dailyquest-auth-api # Nome claro
     ports:
-      - "8080:8080"
-    
+      - "8080:8080" # Porta diferente para não dar conflito (usei 8001)
     volumes:
-      - ./:/app/
+      - ./src:/app/src
+    env_file: .env # Carrega o .env (com DATABASE_URL e SECRET_KEY)
+    networks:
+      - dailyquest-net # Conecta na rede externa
+
+networks:
+  # Diz ao Docker para usar a rede criada pelo outro compose
+  dailyquest-net:
+    external: true
