@@ -1,11 +1,8 @@
-# Em: src/model/model.py
-
 import uuid
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from ..database import Base
 
-# Modelo SQLAlchemy da tabela users
 class User(Base):
     __tablename__ = "users"
 

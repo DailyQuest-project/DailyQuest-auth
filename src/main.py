@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .database import engine, Base # Importar Base e engine
+from .database import engine, Base 
 from .login.router import router as login_router
 from .config import settings
 
-# CENTRALIZADO: Ponto único para criação das tabelas na inicialização
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -19,10 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers
 app.include_router(login_router)
 
 @app.get('/')
 async def hello_world():
-    # CORREÇÃO: Removido o acesso a atributos inexistentes
     return {"status": "DailyQuest Auth Service is running"}
