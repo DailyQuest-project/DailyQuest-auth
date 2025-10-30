@@ -28,9 +28,15 @@ def criar_token_jwt(subject: Union[str, Any]) -> str:
     return encoded_jwt
 
 def verify_password(password: str, hashed_password: str) -> bool:
+    # Truncar senha para 72 bytes se necessário (limite do bcrypt)
+    if len(password.encode('utf-8')) > 72:
+        password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
     return pwd_context.verify(password, hashed_password)
 
 def get_password_hash(password: str) -> str:
+    # Truncar senha para 72 bytes se necessário (limite do bcrypt)
+    if len(password.encode('utf-8')) > 72:
+        password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
     return pwd_context.hash(password)
 
 def obter_usuario_logado(database: Session = Depends(get_database), token: str = Depends(authSchema)) -> User:
@@ -53,4 +59,4 @@ def obter_usuario_logado(database: Session = Depends(get_database), token: str =
         )
 
     user.password_hash = None 
-    return user 
+    return user
