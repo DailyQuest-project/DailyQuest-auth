@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base 
 from .login.router import router as login_router
 from .config import settings
+from .model.model import User
 
 Base.metadata.create_all(bind=engine)
 
