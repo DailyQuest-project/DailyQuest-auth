@@ -3,14 +3,12 @@ services:
   - type: web
     name: dailyquest-auth
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Dockerfile.production
     envVars:
       - key: SECRET_KEY
         sync: false # Configure manualmente no Render
       - key: DATABASE_URL
-        fromDatabase:
-          name: dailyquest-auth-db
-          property: connectionString
+        sync: false # Use a MESMA URL do backend (copiar manualmente)
       - key: JWT_ALGORITHM
         value: HS512
       - key: NODE_ENV
@@ -20,8 +18,6 @@ services:
     healthCheckPath: /
     autoDeploy: true
 
-# PostgreSQL Database para Auth
-databases:
-  - name: dailyquest-auth-db
-    databaseName: dailyquest_auth
-    plan: free # Mude para 'starter' para produção real
+# ⚠️ IMPORTANTE: NÃO criar banco separado!
+# Auth usa o MESMO banco do Backend (dailyquest-db)
+# Copie a mesma DATABASE_URL do backend service
